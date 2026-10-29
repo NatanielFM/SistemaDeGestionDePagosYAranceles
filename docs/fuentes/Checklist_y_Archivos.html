@@ -44,7 +44,7 @@
   <tr><td class="ok">✓</td><td>BecaNoAplicableException</td><td class="donde">% fuera de (0,100], inactivo, sin saldo becable</td></tr>
   <tr><td class="ok">✓</td><td>Logger Singleton para registrar transacciones</td><td class="donde">LoggerTransacciones → logs/transacciones.log</td></tr>
   <tr><td class="ok">✓</td><td>PagoFactory: pagos en efectivo, tarjeta o transferencia</td><td class="donde">PagoFactory + 3 subclases de Pago</td></tr>
-  <tr><td class="ok">✓</td><td>Pruebas JUnit 5: Logger, Factory y cálculo de saldos</td><td class="donde">src/test (78 pruebas, 0 fallas)</td></tr>
+  <tr><td class="ok">✓</td><td>Pruebas JUnit 5: Logger, Factory y cálculo de saldos</td><td class="donde">src/test (91 pruebas, 0 fallas)</td></tr>
   <tr><td class="ok">✓</td><td>GUI con TableView</td><td class="donde">Pagos, Conceptos, Estudiantes</td></tr>
   <tr><td class="ok">✓</td><td>PieChart de distribución de pagos</td><td class="donde">Resumen (por medio / por concepto)</td></tr>
   <tr><td class="ok">✓</td><td>CSS</td><td class="donde">css/estilos.css</td></tr>
@@ -63,7 +63,7 @@
 <h2>Guion corto para la demostración</h2>
 <ol>
   <li><b>Resumen:</b> cifras animadas y PieChart; alternar “Por medio” / “Por concepto” (el segundo usa una consulta JPQL con GROUP BY).</li>
-  <li><b>Pagos:</b> registrar una tarjeta en 3 cuotas → aviso verde. Intentar pagar de nuevo la matrícula de Lucía → <i>PagoDuplicadoException</i>. Escribir -500 → <i>MontoInvalidoException</i> (el campo se sacude).</li>
+  <li><b>Pagos:</b> buscar un estudiante escribiendo legajo o nombre y registrar una tarjeta en 3 cuotas → aviso verde. Intentar pagar de nuevo la matrícula de Lucía → <i>PagoDuplicadoException</i>. Escribir -500 → <i>MontoInvalidoException</i> (el campo se sacude).</li>
   <li>Registrar una <b>transferencia</b>: queda “Pendiente”; botón <b>Acreditar</b>. Mostrar Anular y el filtro por medio.</li>
   <li><b>Estudiantes:</b> TreeView con la cuenta corriente. Beca de 150 % → <i>BecaNoAplicableException</i>; beca de 40 % → baja el saldo.</li>
   <li><b>Bitácora:</b> cada operación anterior registrada por el Logger Singleton, también en el archivo.</li>
@@ -112,6 +112,7 @@
   <tr><td>ArancelException.java</td><td>Base (checked) de las excepciones de negocio.</td></tr>
   <tr><td>PagoDuplicado / MontoInvalido / BecaNoAplicable</td><td>Las tres excepciones personalizadas que pide la consigna.</td></tr>
   <tr><td>LoggerTransacciones.java</td><td>Patrón Singleton: registra cada transacción y error con fecha y nivel en el archivo de log.</td></tr>
+  <tr><td>Busqueda.java</td><td>Coincidencia de texto para buscar estudiantes por legajo o nombre.</td></tr>
   <tr><td>Formatos.java</td><td>Formato de pesos y fechas (es-AR) y lectura de montos como “45.000,50”.</td></tr>
 
   <tr class="grupo"><td colspan="2">controller · view · swing (interfaz)</td></tr>
@@ -125,6 +126,7 @@
   <tr><td>Animaciones.java</td><td>Transiciones reutilizables: entrada, cascada, sacudida, contador y barras.</td></tr>
   <tr><td>Notificador.java</td><td>Avisos emergentes (toasts) de éxito, error e información.</td></tr>
   <tr><td>Celdas.java</td><td>Celdas personalizadas de tabla (montos, etiquetas de estado, medio de pago).</td></tr>
+  <tr><td>ComboBuscable.java</td><td>Convierte un ComboBox en buscador con autocompletado (selector de estudiantes en Pagos).</td></tr>
   <tr><td>Dialogos.java</td><td>Diálogo de confirmación con estilo propio (anular / eliminar).</td></tr>
   <tr><td>SimuladorBecaFrame.java</td><td>Formulario Swing que calcula importe con beca y valor de cuota.</td></tr>
 
@@ -137,6 +139,7 @@
   <tr><td>LoggerTransaccionesTest.java</td><td>Unicidad (también con varios hilos), escritura en archivo y mensajes nulos/vacíos.</td></tr>
   <tr><td>PagoFactoryTest.java</td><td>Crea los 3 tipos, rechaza tipos inválidos y valida dígitos, cuotas y nro. de operación.</td></tr>
   <tr><td>CalculadoraSaldosTest.java</td><td>Saldos con pagos parciales, pendientes, anulados, becas 0–100 % y centavos.</td></tr>
+  <tr><td>BusquedaTest.java</td><td>Búsqueda de estudiantes por legajo o nombre (sin tildes, cualquier orden).</td></tr>
   <tr><td>PagoServiceTest.java</td><td>Servicio real con JPA sobre H2: duplicados, montos límite, becas, acreditación y JPQL.</td></tr>
   <tr><td>CapturasPantalla.java</td><td>Herramienta (no es una prueba) que recorre la app y genera las capturas de docs/capturas.</td></tr>
 </table>

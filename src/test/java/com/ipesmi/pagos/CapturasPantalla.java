@@ -98,6 +98,37 @@ public class CapturasPantalla {
             paso(() -> { }, 1800, "01_resumen_por_medio");
             paso(() -> this.<ToggleButton>buscar("#tbPorConcepto").fire(), 1300, "02_resumen_por_concepto");
             paso(() -> main.mostrar("Pagos"), 900, "03_pagos_listado");
+            // buscador de estudiantes: filtra, elige y descarta la selección si se edita el texto
+            paso(() -> this.<ComboBox<Estudiante>>buscar("#cmbEstudiante").getEditor().setText("SOSA"), 300, null);
+            paso(() -> {
+                ComboBox<Estudiante> cmb = buscar("#cmbEstudiante");
+                System.out.println("buscador 'SOSA' -> " + cmb.getItems().size() + " resultado(s): " + cmb.getItems());
+                cmb.getEditor().setText("100");
+            }, 300, null);
+            paso(() -> {
+                ComboBox<Estudiante> cmb = buscar("#cmbEstudiante");
+                System.out.println("buscador '100' -> " + cmb.getItems().size() + " resultado(s)");
+                cmb.getEditor().setText("valen sosa");
+            }, 300, null);
+            paso(() -> {
+                ComboBox<Estudiante> cmb = buscar("#cmbEstudiante");
+                cmb.setValue(cmb.getItems().get(0));
+            }, 300, null);
+            paso(() -> {
+                ComboBox<Estudiante> cmb = buscar("#cmbEstudiante");
+                System.out.println("elegido: editor='" + cmb.getEditor().getText() + "' valor=" + cmb.getValue());
+                cmb.getEditor().setText(cmb.getEditor().getText() + "x");
+            }, 400, null);
+            paso(() -> {
+                ComboBox<Estudiante> cmb = buscar("#cmbEstudiante");
+                System.out.println("texto editado: editor='" + cmb.getEditor().getText() + "' valor=" + cmb.getValue()
+                        + " items=" + cmb.getItems().size());
+                this.<Button>buscar("#btnLimpiar").fire();
+            }, 300, null);
+            paso(() -> {
+                ComboBox<Estudiante> cmb = buscar("#cmbEstudiante");
+                System.out.println("tras limpiar: editor='" + cmb.getEditor().getText() + "' items=" + cmb.getItems().size());
+            }, 200, null);
             paso(() -> {
                 this.<ComboBox<Estudiante>>buscar("#cmbEstudiante").setValue(camila);
                 this.<ComboBox<Concepto>>buscar("#cmbConcepto").setValue(cuo4);

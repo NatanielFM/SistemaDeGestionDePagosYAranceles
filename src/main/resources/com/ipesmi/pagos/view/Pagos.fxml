@@ -61,7 +61,7 @@
 
             <VBox spacing="5">
                 <Label text="ESTUDIANTE" styleClass="etiqueta-campo"/>
-                <ComboBox fx:id="cmbEstudiante" maxWidth="Infinity" promptText="Seleccione un estudiante"/>
+                <ComboBox fx:id="cmbEstudiante" maxWidth="Infinity" promptText="Buscar por legajo o nombre"/>
             </VBox>
             <VBox spacing="5">
                 <Label text="CONCEPTO" styleClass="etiqueta-campo"/>

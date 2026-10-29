@@ -143,7 +143,7 @@
     -fx-border-color: -indigo;
     -fx-border-width: 1.5;
 }
-.date-picker .text-field, .spinner .text-field { -fx-border-width: 0; -fx-background-color: transparent; }
+.date-picker .text-field, .spinner .text-field, .combo-box .text-field { -fx-border-width: 0; -fx-background-color: transparent; }
 .combo-box .list-cell { -fx-padding: 4 8; }
 .combo-box-popup .list-view { -fx-background-radius: 6; -fx-padding: 4; }
 .combo-box-popup .list-cell:filled:hover { -fx-background-color: #EEECFF; -fx-text-fill: -tinta; }

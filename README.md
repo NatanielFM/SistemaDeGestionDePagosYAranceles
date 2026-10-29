@@ -14,7 +14,7 @@ Aplicación de escritorio JavaFX + JPA (Hibernate) que administra conceptos de p
 | 5 | Formulario Swing *Simulador de becas* (BorderLayout, GridBagLayout, GridLayout, FlowLayout y eventos) |
 | 6 | JavaFX con FXML (MVC), TableView, TreeView, PieChart, CSS propio y animaciones |
 | 7 | JPA con Hibernate 6: entidades, herencia `SINGLE_TABLE`, `EntityManager`, CRUD y consultas JPQL |
-| 8 | Logger Singleton, `PagoFactory` y 78 pruebas JUnit 5 |
+| 8 | Logger Singleton, `PagoFactory` y 91 pruebas JUnit 5 |
 
 Java 21 · Maven · MySQL 8/9 · H2 (pruebas y modo demo)
 

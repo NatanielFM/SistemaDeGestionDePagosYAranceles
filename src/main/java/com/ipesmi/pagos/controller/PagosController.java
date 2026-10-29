@@ -16,6 +16,7 @@ import com.ipesmi.pagos.service.PagoService;
 import com.ipesmi.pagos.util.Formatos;
 import com.ipesmi.pagos.view.Animaciones;
 import com.ipesmi.pagos.view.Celdas;
+import com.ipesmi.pagos.view.ComboBuscable;
 import com.ipesmi.pagos.view.Dialogos;
 import com.ipesmi.pagos.view.Notificador;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -87,6 +88,7 @@ public class PagosController implements Refrescable {
     private final PagoService servicio = AppContext.get().pagos();
     private final ObservableList<Pago> datos = FXCollections.observableArrayList();
     private FilteredList<Pago> filtrados;
+    private ComboBuscable<Estudiante> buscadorEstudiante;
 
     /** Pago que se está editando, o null si el formulario es de alta. */
     private Pago enEdicion;
@@ -190,7 +192,11 @@ public class PagosController implements Refrescable {
         });
         spCuotas.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, PagoFactory.MAX_CUOTAS, 1));
         dpFecha.setConverter(Celdas.convertidorFecha());
-        cmbEstudiante.valueProperty().addListener((o, a, b) -> actualizarImporte(true));
+        // listas largas: se busca escribiendo legajo o nombre ("1001", "benitez", "lucia ben")
+        buscadorEstudiante = new ComboBuscable<>(cmbEstudiante,
+                e -> e.getLegajo() + " · " + e.getNombreCompleto(),
+                e -> e.getLegajo() + " " + e.getApellido() + " " + e.getNombre());
+        buscadorEstudiante.seleccionadoProperty().addListener((o, a, b) -> actualizarImporte(true));
         cmbConcepto.valueProperty().addListener((o, a, b) -> actualizarImporte(true));
     }
 
@@ -230,7 +236,7 @@ public class PagosController implements Refrescable {
 
     /** Muestra importe, beca y saldo disponible; opcionalmente completa el monto. */
     private void actualizarImporte(boolean completarMonto) {
-        Estudiante e = cmbEstudiante.getValue();
+        Estudiante e = buscadorEstudiante.getSeleccionado();
         Concepto c = cmbConcepto.getValue();
         if (e == null || c == null || enEdicion != null) {
             if (enEdicion == null) {
@@ -265,7 +271,7 @@ public class PagosController implements Refrescable {
         try {
             // un monto vacío llega como null y lo rechaza el servicio (después de verificar duplicados)
             BigDecimal monto = txtMonto.getText().isBlank() ? null : Formatos.leerMonto(txtMonto.getText());
-            SolicitudPago solicitud = new SolicitudPago(cmbEstudiante.getValue(), cmbConcepto.getValue(), monto,
+            SolicitudPago solicitud = new SolicitudPago(buscadorEstudiante.getSeleccionado(), cmbConcepto.getValue(), monto,
                     dpFecha.getValue(), txtReferencia.getText(), spCuotas.getValue(), txtBanco.getText());
             Pago nuevo = servicio.registrarPago(medioSeleccionado(), solicitud);
             Notificador.exito("Pago #" + nuevo.getId() + " registrado · " + nuevo.getDetalleMedio()
@@ -416,7 +422,7 @@ public class PagosController implements Refrescable {
         tbEfectivo.setDisable(false);
         tbTarjeta.setDisable(false);
         tbTransferencia.setDisable(false);
-        cmbEstudiante.setValue(null);
+        buscadorEstudiante.limpiar();
         cmbConcepto.setValue(null);
         tbEfectivo.setSelected(true);
         ajustarCamposMedio();
@@ -439,10 +445,10 @@ public class PagosController implements Refrescable {
     @Override
     public void refrescar() {
         AppContext ctx = AppContext.get();
-        Estudiante e = cmbEstudiante.getValue();
+        Estudiante e = buscadorEstudiante.getSeleccionado();
         Concepto c = cmbConcepto.getValue();
         List<Estudiante> activos = ctx.estudiantes().listarActivos();
-        cmbEstudiante.getItems().setAll(activos);
+        buscadorEstudiante.setDatos(activos);
         cmbConcepto.getItems().setAll(ctx.conceptos().listar());
         if (e != null && activos.contains(e)) {
             cmbEstudiante.setValue(e);
