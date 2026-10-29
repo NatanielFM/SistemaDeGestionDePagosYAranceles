@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.ipesmi.pagos.controller.BitacoraController" spacing="16">
+
+    <HBox alignment="BOTTOM_LEFT" spacing="12">
+        <VBox spacing="2">
+            <Label text="Bitácora" styleClass="titulo"/>
+            <Label fx:id="lblArchivo" styleClass="subtitulo"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <ComboBox fx:id="cmbNivel" prefWidth="180"/>
+    </HBox>
+
+    <ListView fx:id="lista" VBox.vgrow="ALWAYS"/>
+
+    <Label fx:id="lblTotal" styleClass="pie-tabla"/>
+</VBox>

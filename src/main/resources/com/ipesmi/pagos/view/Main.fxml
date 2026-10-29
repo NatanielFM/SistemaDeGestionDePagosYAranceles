@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.ipesmi.pagos.controller.MainController">
+
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="marca">
+                <HBox>
+                    <Label text="aranceles" styleClass="marca-nombre"/>
+                    <Label text="." styleClass="marca-punto"/>
+                </HBox>
+                <Label text="IPESMI · Tesorería" styleClass="marca-sub"/>
+            </VBox>
+
+            <!-- El indicador se desliza detrás del botón activo -->
+            <StackPane alignment="TOP_LEFT">
+                <Region fx:id="indicador" styleClass="nav-indicador"/>
+                <VBox fx:id="nav" styleClass="nav">
+                    <Button fx:id="btnResumen" text="Resumen" styleClass="nav-item" onAction="#irResumen">
+                        <graphic><Label text="01" styleClass="nav-num"/></graphic>
+                    </Button>
+                    <Button fx:id="btnPagos" text="Pagos" styleClass="nav-item" onAction="#irPagos">
+                        <graphic><Label text="02" styleClass="nav-num"/></graphic>
+                    </Button>
+                    <Button fx:id="btnConceptos" text="Conceptos" styleClass="nav-item" onAction="#irConceptos">
+                        <graphic><Label text="03" styleClass="nav-num"/></graphic>
+                    </Button>
+                    <Button fx:id="btnEstudiantes" text="Estudiantes" styleClass="nav-item" onAction="#irEstudiantes">
+                        <graphic><Label text="04" styleClass="nav-num"/></graphic>
+                    </Button>
+                    <Button fx:id="btnBitacora" text="Bitácora" styleClass="nav-item" onAction="#irBitacora">
+                        <graphic><Label text="05" styleClass="nav-num"/></graphic>
+                    </Button>
+                </VBox>
+            </StackPane>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <VBox spacing="0">
+                <padding><Insets left="20" right="20"/></padding>
+                <Button fx:id="btnSimulador" text="Simulador de becas" styleClass="nav-secundario"
+                        maxWidth="Infinity" onAction="#abrirSimulador"/>
+            </VBox>
+            <Label fx:id="lblConexion" styleClass="conexion" wrapText="true"/>
+        </VBox>
+    </left>
+
+    <center>
+        <StackPane fx:id="capa">
+            <StackPane fx:id="contenido" styleClass="contenido" alignment="TOP_LEFT"/>
+        </StackPane>
+    </center>
+</BorderPane>

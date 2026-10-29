@@ -1,0 +1,5 @@
+# Copiar este archivo como "db.properties" (en esta misma carpeta) y completar
+# los datos de MySQL. db.properties está en .gitignore para no subir la contraseña.
+jakarta.persistence.jdbc.url=jdbc:mysql://localhost:3306/pagos_aranceles?createDatabaseIfNotExist=true&serverTimezone=America/Argentina/Buenos_Aires&characterEncoding=UTF-8
+jakarta.persistence.jdbc.user=root
+jakarta.persistence.jdbc.password=

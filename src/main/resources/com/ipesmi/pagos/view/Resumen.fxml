@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.ipesmi.pagos.controller.ResumenController" spacing="26">
+
+    <HBox alignment="BOTTOM_LEFT">
+        <VBox spacing="2">
+            <Label text="Resumen" styleClass="titulo"/>
+            <Label fx:id="lblFecha" styleClass="subtitulo"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Actualizar" styleClass="btn-secundario" onAction="#refrescar"/>
+    </HBox>
+
+    <!-- Cifras principales -->
+    <HBox fx:id="cifras" spacing="26">
+        <VBox fx:id="cajaRecaudado" styleClass="cifra-caja" HBox.hgrow="ALWAYS">
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Region styleClass="marcador, marcador-menta"/>
+                <Label text="Recaudado" styleClass="cifra-etiqueta"/>
+            </HBox>
+            <Label fx:id="lblRecaudado" styleClass="cifra-valor"/>
+            <Label fx:id="lblRecaudadoNota" styleClass="cifra-nota"/>
+        </VBox>
+        <Region styleClass="cifra-separador"/>
+        <VBox fx:id="cajaPendiente" styleClass="cifra-caja" HBox.hgrow="ALWAYS">
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Region styleClass="marcador, marcador-sol"/>
+                <Label text="Por acreditar" styleClass="cifra-etiqueta"/>
+            </HBox>
+            <Label fx:id="lblPendiente" styleClass="cifra-valor"/>
+            <Label fx:id="lblPendienteNota" styleClass="cifra-nota"/>
+        </VBox>
+        <Region styleClass="cifra-separador"/>
+        <VBox fx:id="cajaSaldo" styleClass="cifra-caja" HBox.hgrow="ALWAYS">
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Region styleClass="marcador, marcador-coral"/>
+                <Label text="Saldo adeudado" styleClass="cifra-etiqueta"/>
+            </HBox>
+            <Label fx:id="lblSaldo" styleClass="cifra-valor"/>
+            <Label fx:id="lblSaldoNota" styleClass="cifra-nota"/>
+        </VBox>
+        <Region styleClass="cifra-separador"/>
+        <VBox fx:id="cajaBecas" styleClass="cifra-caja" HBox.hgrow="ALWAYS">
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Region styleClass="marcador, marcador-indigo"/>
+                <Label text="Becas otorgadas" styleClass="cifra-etiqueta"/>
+            </HBox>
+            <Label fx:id="lblBecas" styleClass="cifra-valor"/>
+            <Label fx:id="lblBecasNota" styleClass="cifra-nota"/>
+        </VBox>
+    </HBox>
+
+    <HBox spacing="20" VBox.vgrow="ALWAYS">
+        <!-- Distribución (PieChart) -->
+        <VBox styleClass="panel" spacing="10" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT">
+                <Label text="DISTRIBUCIÓN DE LO RECAUDADO" styleClass="seccion"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <HBox styleClass="segmentado">
+                    <fx:define><ToggleGroup fx:id="grupoVista"/></fx:define>
+                    <ToggleButton fx:id="tbPorMedio" text="Por medio" toggleGroup="$grupoVista" selected="true"
+                                  styleClass="primero"/>
+                    <ToggleButton fx:id="tbPorConcepto" text="Por concepto" toggleGroup="$grupoVista"
+                                  styleClass="ultimo"/>
+                </HBox>
+            </HBox>
+            <HBox spacing="18" alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                <PieChart fx:id="grafico" legendVisible="false" labelsVisible="false" startAngle="90"
+                          minWidth="300" prefWidth="380" HBox.hgrow="ALWAYS"/>
+                <VBox fx:id="leyenda" spacing="14" minWidth="230" alignment="CENTER_LEFT"/>
+            </HBox>
+        </VBox>
+
+        <!-- Mayores saldos -->
+        <VBox styleClass="panel" spacing="16" prefWidth="390" minWidth="340">
+            <Label text="MAYORES SALDOS PENDIENTES" styleClass="seccion"/>
+            <VBox fx:id="listaDeudores" spacing="16"/>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Label text="Saldo = importe de cada concepto (con beca si es becable) menos los pagos acreditados."
+                   wrapText="true" styleClass="texto-apagado, texto-chico"/>
+        </VBox>
+    </HBox>
+</VBox>

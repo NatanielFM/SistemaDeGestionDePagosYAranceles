@@ -1,0 +1,14 @@
+target/
+logs/
+data/
+config/db.properties
+*.log
+.idea/
+*.iml
+nbproject/private/
+nb-configuration.xml
+.vscode/
+.claude/
+
+# zip de entrega (se genera con git archive)
+entrega/
