@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Checklist y archivos · Gestión de Pagos y Aranceles</title>
+<style>
+  @page { size: A4; margin: 12mm 15mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; font-size: 9.1pt; line-height: 1.3; color: #15141A; margin: 0; }
+  h1 { font-size: 17pt; margin: 0 0 2px; } h1 span { color: #FF5533; }
+  .sub { color: #666; margin-bottom: 10px; border-bottom: 3px solid #15141A; padding-bottom: 6px; }
+  h2 { font-size: 11pt; margin: 14px 0 5px; text-transform: uppercase; letter-spacing: .6px; }
+  h2::before { content: ""; display: inline-block; width: 9px; height: 9px; background: #4B3BFF; margin-right: 7px; }
+  h3 { font-size: 9.5pt; margin: 9px 0 3px; color: #4B3BFF; font-family: Consolas, monospace; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; vertical-align: top; padding: 2px 6px; border-bottom: 1px solid #E5E2DA; }
+  th { font-size: 7.8pt; color: #666; text-transform: uppercase; border-bottom: 1.5px solid #15141A; }
+  td.ok { width: 20px; color: #00A389; font-weight: 700; font-size: 11pt; text-align: center; }
+  td.donde { font-family: Consolas, monospace; font-size: 8.2pt; color: #3A3942; width: 36%; }
+  .archivos td:first-child { font-family: Consolas, monospace; font-size: 8.4pt; white-space: nowrap; width: 31%; }
+  .grupo td { background: #F1EFEA; font-weight: 700; font-size: 8.4pt; text-transform: uppercase; letter-spacing: .4px; }
+  ol { margin: 3px 0; padding-left: 18px; } li { margin: 2px 0; }
+  code { font-family: Consolas, monospace; font-size: 8.6pt; background: #F1EFEA; padding: 0 3px; border-radius: 3px; }
+  .salto { break-before: page; }
+</style>
+</head>
+<body>
+<h1>Gestión de Pagos y Aranceles<span>.</span></h1>
+<div class="sub">Guía para la explicación en clase · Checklist de requisitos y descripción de archivos · Actividad 7</div>
+
+<h2>Checklist de requisitos</h2>
+<table>
+  <tr><th></th><th>Requisito de la consigna</th><th>Dónde está</th></tr>
+  <tr class="grupo"><td colspan="3">Actividad 7</td></tr>
+  <tr><td class="ok">✓</td><td>Aplicación JavaFX + JPA</td><td class="donde">App.java, persistence.xml</td></tr>
+  <tr><td class="ok">✓</td><td>CRUD de conceptos (entidad Concepto: código, descripción, monto)</td><td class="donde">Concepto, ConceptoService, vista Conceptos</td></tr>
+  <tr><td class="ok">✓</td><td>CRUD de pagos (entidad Pago: estudiante, concepto, fecha, monto, estado)</td><td class="donde">Pago, PagoService, vista Pagos</td></tr>
+  <tr><td class="ok">✓</td><td>Calcular saldos pendientes</td><td class="donde">CalculadoraSaldos, columna Saldo, árbol de cuenta</td></tr>
+  <tr><td class="ok">✓</td><td>Aplicar becas</td><td class="donde">PagoService.aplicarBeca, panel Beca</td></tr>
+  <tr><td class="ok">✓</td><td>HashMap&lt;Integer, Estudiante&gt;</td><td class="donde">EstudianteService (campo estudiantes)</td></tr>
+  <tr><td class="ok">✓</td><td>ArrayList&lt;Pago&gt;</td><td class="donde">PagoService (campo pagos)</td></tr>
+  <tr><td class="ok">✓</td><td>PagoDuplicadoException</td><td class="donde">concepto ya pagado / referencia repetida</td></tr>
+  <tr><td class="ok">✓</td><td>MontoInvalidoException</td><td class="donde">monto nulo, ≤ 0, &gt; 2 decimales o &gt; saldo</td></tr>
+  <tr><td class="ok">✓</td><td>BecaNoAplicableException</td><td class="donde">% fuera de (0,100], inactivo, sin saldo becable</td></tr>
+  <tr><td class="ok">✓</td><td>Logger Singleton para registrar transacciones</td><td class="donde">LoggerTransacciones → logs/transacciones.log</td></tr>
+  <tr><td class="ok">✓</td><td>PagoFactory: pagos en efectivo, tarjeta o transferencia</td><td class="donde">PagoFactory + 3 subclases de Pago</td></tr>
+  <tr><td class="ok">✓</td><td>Pruebas JUnit 5: Logger, Factory y cálculo de saldos</td><td class="donde">src/test (78 pruebas, 0 fallas)</td></tr>
+  <tr><td class="ok">✓</td><td>GUI con TableView</td><td class="donde">Pagos, Conceptos, Estudiantes</td></tr>
+  <tr><td class="ok">✓</td><td>PieChart de distribución de pagos</td><td class="donde">Resumen (por medio / por concepto)</td></tr>
+  <tr><td class="ok">✓</td><td>CSS</td><td class="donde">css/estilos.css</td></tr>
+  <tr class="grupo"><td colspan="3">Unidades evaluadas (extra)</td></tr>
+  <tr><td class="ok">✓</td><td>U5: formulario Swing con eventos y Layout Manager</td><td class="donde">swing/SimuladorBecaFrame</td></tr>
+  <tr><td class="ok">✓</td><td>U6: TreeView, animaciones y MVC</td><td class="donde">árbol de cuenta corriente, view/Animaciones, FXML + controller</td></tr>
+  <tr><td class="ok">✓</td><td>U7: EntityManager, CRUD y JPQL</td><td class="donde">dao/GenericDAO, PagoDAO (GROUP BY, JOIN FETCH)</td></tr>
+  <tr class="grupo"><td colspan="3">Entregables</td></tr>
+  <tr><td class="ok">✓</td><td>Código fuente completo (proyecto Maven)</td><td class="donde">repositorio / .zip</td></tr>
+  <tr><td class="ok">✓</td><td>Script SQL (CREATE TABLE, INSERT, UPDATE, SELECT)</td><td class="donde">sql/pagos_aranceles.sql</td></tr>
+  <tr><td class="ok">✓</td><td>Capturas de pantalla</td><td class="donde">docs/capturas (15 imágenes)</td></tr>
+  <tr><td class="ok">✓</td><td>Informe técnico (máx. 2 páginas)</td><td class="donde">docs/Informe_Tecnico.pdf</td></tr>
+  <tr><td class="ok">✓</td><td>Repositorio GitHub</td><td class="donde">github.com/NatanielFM/SistemaDeGestionDePagosYAranceles</td></tr>
+</table>
+
+<h2>Guion corto para la demostración</h2>
+<ol>
+  <li><b>Resumen:</b> cifras animadas y PieChart; alternar “Por medio” / “Por concepto” (el segundo usa una consulta JPQL con GROUP BY).</li>
+  <li><b>Pagos:</b> registrar una tarjeta en 3 cuotas → aviso verde. Intentar pagar de nuevo la matrícula de Lucía → <i>PagoDuplicadoException</i>. Escribir -500 → <i>MontoInvalidoException</i> (el campo se sacude).</li>
+  <li>Registrar una <b>transferencia</b>: queda “Pendiente”; botón <b>Acreditar</b>. Mostrar Anular y el filtro por medio.</li>
+  <li><b>Estudiantes:</b> TreeView con la cuenta corriente. Beca de 150 % → <i>BecaNoAplicableException</i>; beca de 40 % → baja el saldo.</li>
+  <li><b>Bitácora:</b> cada operación anterior registrada por el Logger Singleton, también en el archivo.</li>
+  <li><b>Simulador de becas</b> (Swing) y por último <code>mvn test</code>.</li>
+</ol>
+
+<h2 class="salto">Qué hace cada archivo</h2>
+<table class="archivos">
+  <tr><th>Archivo</th><th>Para qué sirve</th></tr>
+  <tr class="grupo"><td colspan="2">Raíz del proyecto</td></tr>
+  <tr><td>pom.xml</td><td>Configuración de Maven: dependencias (JavaFX, Hibernate, MySQL, H2, JUnit 5) y plugins para ejecutar.</td></tr>
+  <tr><td>sql/pagos_aranceles.sql</td><td>Crea la base y las tablas, carga datos de ejemplo y trae UPDATE y SELECT de control.</td></tr>
+  <tr><td>config/db.properties.ejemplo</td><td>Plantilla con URL, usuario y contraseña de MySQL (se copia como db.properties).</td></tr>
+  <tr><td>README.md</td><td>Presentación del proyecto y cómo ejecutarlo.</td></tr>
+
+  <tr class="grupo"><td colspan="2">com.ipesmi.pagos</td></tr>
+  <tr><td>Main.java</td><td>Lanzador: llama a Application.launch (sirve para ejecutar fuera de Maven/NetBeans).</td></tr>
+  <tr><td>App.java</td><td>Aplicación JavaFX: carga Main.fxml y el CSS, dimensiona la ventana y cierra JPA al salir.</td></tr>
+
+  <tr class="grupo"><td colspan="2">model — entidades JPA</td></tr>
+  <tr><td>Estudiante.java</td><td>Legajo (PK), nombre, apellido, email, % de beca y si está activo.</td></tr>
+  <tr><td>Concepto.java</td><td>Código (PK), descripción, monto, tipo, si es becable y vencimiento.</td></tr>
+  <tr><td>Pago.java</td><td>Clase abstracta: estudiante, concepto, fecha, monto, estado y referencia. Herencia SINGLE_TABLE.</td></tr>
+  <tr><td>PagoEfectivo.java</td><td>Pago en caja; la referencia es el número de recibo.</td></tr>
+  <tr><td>PagoTarjeta.java</td><td>Pago con tarjeta: últimos 4 dígitos y cantidad de cuotas.</td></tr>
+  <tr><td>PagoTransferencia.java</td><td>Transferencia: número de operación y banco de origen.</td></tr>
+  <tr><td>EstadoPago / MedioPago / TipoConcepto</td><td>Enums: Pendiente/Acreditado/Anulado, Efectivo/Tarjeta/Transferencia, Matrícula/Cuota/Examen/Otro.</td></tr>
+
+  <tr class="grupo"><td colspan="2">dao — acceso a datos</td></tr>
+  <tr><td>JPAUtil.java</td><td>Crea un único EntityManagerFactory y arma la configuración (persistence.xml, db.properties, modo demo).</td></tr>
+  <tr><td>GenericDAO.java</td><td>CRUD genérico: guardar, actualizar, eliminar, buscar y listar, con transacciones.</td></tr>
+  <tr><td>EstudianteDAO / ConceptoDAO</td><td>Listados ordenados con JPQL.</td></tr>
+  <tr><td>PagoDAO.java</td><td>JPQL: pagos con JOIN FETCH, conteos y total acreditado por tipo de concepto (GROUP BY).</td></tr>
+
+  <tr class="grupo"><td colspan="2">service — lógica de negocio</td></tr>
+  <tr><td>EstudianteService.java</td><td>ABM de estudiantes con validaciones; HashMap&lt;Integer, Estudiante&gt;.</td></tr>
+  <tr><td>ConceptoService.java</td><td>ABM de conceptos y validación de montos.</td></tr>
+  <tr><td>PagoService.java</td><td>Registrar, editar, acreditar, anular y eliminar pagos; becas; saldos; datos del PieChart. ArrayList&lt;Pago&gt;.</td></tr>
+  <tr><td>CalculadoraSaldos.java</td><td>Fórmulas puras: importe con beca, saldo por concepto, saldo total y monto disponible.</td></tr>
+  <tr><td>AppContext.java</td><td>Crea los servicios una sola vez y los comparte entre los controladores.</td></tr>
+  <tr><td>DatosDemo.java</td><td>Carga los datos de ejemplo del script cuando se usa el modo demo (H2).</td></tr>
+
+  <tr class="grupo"><td colspan="2">factory · exception · util</td></tr>
+  <tr><td>PagoFactory.java</td><td>Patrón Factory: crea la subclase de Pago según el medio, valida sus datos y fija el estado inicial.</td></tr>
+  <tr><td>SolicitudPago.java</td><td>Record con los datos que recibe la fábrica.</td></tr>
+  <tr><td>ArancelException.java</td><td>Base (checked) de las excepciones de negocio.</td></tr>
+  <tr><td>PagoDuplicado / MontoInvalido / BecaNoAplicable</td><td>Las tres excepciones personalizadas que pide la consigna.</td></tr>
+  <tr><td>LoggerTransacciones.java</td><td>Patrón Singleton: registra cada transacción y error con fecha y nivel en el archivo de log.</td></tr>
+  <tr><td>Formatos.java</td><td>Formato de pesos y fechas (es-AR) y lectura de montos como “45.000,50”.</td></tr>
+
+  <tr class="grupo"><td colspan="2">controller · view · swing (interfaz)</td></tr>
+  <tr><td>MainController.java</td><td>Barra lateral, navegación con indicador animado, conexión en segundo plano y apertura del simulador Swing.</td></tr>
+  <tr><td>ResumenController.java</td><td>Cifras animadas, PieChart y ranking de saldos.</td></tr>
+  <tr><td>PagosController.java</td><td>TableView de pagos con filtros y formulario de alta/edición; atrapa las excepciones y muestra avisos.</td></tr>
+  <tr><td>ConceptosController.java</td><td>TableView y formulario de conceptos.</td></tr>
+  <tr><td>EstudiantesController.java</td><td>TableView de estudiantes, formulario, becas y TreeView de cuenta corriente.</td></tr>
+  <tr><td>BitacoraController.java</td><td>Muestra el log con colores por nivel y se actualiza en vivo.</td></tr>
+  <tr><td>Refrescable.java</td><td>Interfaz para que cada vista recargue sus datos al mostrarse.</td></tr>
+  <tr><td>Animaciones.java</td><td>Transiciones reutilizables: entrada, cascada, sacudida, contador y barras.</td></tr>
+  <tr><td>Notificador.java</td><td>Avisos emergentes (toasts) de éxito, error e información.</td></tr>
+  <tr><td>Celdas.java</td><td>Celdas personalizadas de tabla (montos, etiquetas de estado, medio de pago).</td></tr>
+  <tr><td>Dialogos.java</td><td>Diálogo de confirmación con estilo propio (anular / eliminar).</td></tr>
+  <tr><td>SimuladorBecaFrame.java</td><td>Formulario Swing que calcula importe con beca y valor de cuota.</td></tr>
+
+  <tr class="grupo"><td colspan="2">resources</td></tr>
+  <tr><td>META-INF/persistence.xml</td><td>Unidad de persistencia “pagosPU”: entidades y conexión por defecto a MySQL.</td></tr>
+  <tr><td>view/*.fxml</td><td>Vistas: Main, Resumen, Pagos, Conceptos, Estudiantes y Bitácora.</td></tr>
+  <tr><td>css/estilos.css</td><td>Estilos de toda la aplicación (colores, tablas, botones, PieChart, avisos).</td></tr>
+
+  <tr class="grupo"><td colspan="2">src/test</td></tr>
+  <tr><td>LoggerTransaccionesTest.java</td><td>Unicidad (también con varios hilos), escritura en archivo y mensajes nulos/vacíos.</td></tr>
+  <tr><td>PagoFactoryTest.java</td><td>Crea los 3 tipos, rechaza tipos inválidos y valida dígitos, cuotas y nro. de operación.</td></tr>
+  <tr><td>CalculadoraSaldosTest.java</td><td>Saldos con pagos parciales, pendientes, anulados, becas 0–100 % y centavos.</td></tr>
+  <tr><td>PagoServiceTest.java</td><td>Servicio real con JPA sobre H2: duplicados, montos límite, becas, acreditación y JPQL.</td></tr>
+  <tr><td>CapturasPantalla.java</td><td>Herramienta (no es una prueba) que recorre la app y genera las capturas de docs/capturas.</td></tr>
+</table>
+</body>
+</html>
